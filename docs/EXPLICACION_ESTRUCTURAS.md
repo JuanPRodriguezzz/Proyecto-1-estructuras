@@ -32,3 +32,41 @@ Array<List<Patient*>>* priorityBuckets;
 // [1] → Lista prioridad MEDIA  
 // [2] → Lista prioridad BAJA
 ```
+
+**Por qué Array de Listas**:
+
+- ✅ **Eficiencia**: O(1) para encontrar siguiente prioridad
+- ✅ **FIFO por prioridad**: Justo dentro de cada nivel
+- ✅ **Visualización clara**: Representación natural del triage
+
+**Uso en el Sistema**:
+- Recepción de pacientes en orden de llegada
+- Clasificación automática por prioridad médica
+- Extracción ordenada por urgencia
+
+### 3. Cola Circular (`CircularQueue`)
+
+**Propósito**: Gestión de consultorios médicos limitados
+
+**Por qué Array para Cola Circular**:
+- ✅ **Recursos fijos**: Consultorios son limitados físicamente
+- ✅ **Eficiencia memoria**: Array contiguo vs nodos dispersos
+- ✅ **Acceso directo**: O(1) a cualquier consultorio
+
+**Uso en el Sistema**:
+- Gestión de consultorios disponibles/ocupados
+- Reutilización cíclica de recursos
+- Control de capacidad máxima
+
+### 4. Pila (`Stack`)
+
+**Propósito**: Historial de pacientes atendidos recientemente
+
+**Por qué Pila**:
+- ✅ **Natural para historial**: Los más recientes son más relevantes
+- ✅ **Eficiencia**: O(1) para operaciones básicas
+
+**Uso en el Sistema**:
+- Almacenamiento de consultas completadas
+- Acceso rápido al paciente más reciente
+
