@@ -116,6 +116,9 @@ public:
     int len() {
         return length;
     }
+    /**
+     * PEEK - if list is not empty returns the data in the first node of the list pointed by head
+     */
     T peek() {
     if (!isEmpty()) {
         return head->data;
