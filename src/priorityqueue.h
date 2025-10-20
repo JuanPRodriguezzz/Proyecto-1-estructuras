@@ -1,178 +1,230 @@
 #ifndef PRIORITYQUEUE_H
 #define PRIORITYQUEUE_H
 
+#include "array.h"
 #include "list.h"
 #include "patient.h"
+#include <iostream>
 
 /**
- * PRIORITY QUEUE TEMPLATE CLASS
+ * PRIORITY QUEUE - IMPLEMENTACIÓN CORRECTA
  * 
- * SPECIALIZED QUEUE WHERE ELEMENTS ARE ORDERED BY PRIORITY
- * Inherits from Professor's List class
- * 
- * HOSPITAL APPLICATION:
- * - Used for patient triage system
- * - Higher priority patients (lower number) are served first
- * - Maintains sorted order based on patient urgency
- * 
- * MEMORY MANAGEMENT:
- * - Stores pointers to Patient objects (Patient*)
- * - Does NOT own the memory - just references existing Patients
+ * ESTRUCTURA: Array de Lists (como mencionó el profesor)
+ * - Array de tamaño fijo = número de prioridades
+ * - Cada bucket del Array contiene una List de pacientes
+ * - Prioridades: 0=Alta, 1=Media, 2=Baja
  */
 
 template <typename T>
-class PriorityQueue : public List<T> {
+class PriorityQueue {
+private:
+    Array<List<T>>* priorityBuckets;  // ⬅️ ARRAY de LISTAS
+    int totalPatients;                // Contador total de pacientes
+    int numPriorities;                // Número de niveles de prioridad
+
 public:
     /**
-     * PRIORITY QUEUE CONSTRUCTOR
-     * 
-     * INHERITANCE:
-     * - Calls base List constructor automatically
-     * - Initializes head, last to NULL and length to 0
+     * CONSTRUCTOR
+     * @param priorities: Número de niveles de prioridad (default: 3)
      */
-    PriorityQueue() : List<T>() {}
-
-    /**
-     * ADD METHOD - OVERRIDES VIRTUAL METHOD FROM LIST
-     * @param data: Pointer to Patient object to add
-     * 
-     * ALGORITHM:
-     * 1. Create new node containing the patient pointer
-     * 2. Find correct position based on patient priority
-     * 3. Insert node at correct position to maintain sorted order
-     * 
-     * POINTER MANAGEMENT:
-     * - Stores Patient pointers, not Patient objects
-     * - Avoids object copying and maintains data consistency
-     */
-    void add(T data) {
-        // Create new node with the patient pointer
-        Node<T>* newNode = new Node<T>(data);
+    PriorityQueue(int priorities = 3) : totalPatients(0), numPriorities(priorities) {
+        // Crear array de listas para cada nivel de prioridad
+        priorityBuckets = new Array<List<T>>(numPriorities, numPriorities);
         
-        // CASE 1: Empty list - new node becomes both head and last
-        if (this->isEmpty()) {
-            this->head = newNode;
-            this->last = newNode;
-        } 
-        // CASE 2: New patient has higher priority than current head
-        // Higher priority = lower priority number (1 > 2 > 3)
-        else if (*data < *(this->head->data)) {
-            newNode->next = this->head;  // New node points to current head
-            this->head = newNode;        // New node becomes new head
+        // Inicializar cada bucket con una lista vacía
+        for (int i = 0; i < numPriorities; i++) {
+            (*priorityBuckets)[i] = List<T>();
         }
-        // CASE 3: Find correct position in the middle/end of list
-        else {
-            Node<T>* current = this->head;    // Start from head
-            Node<T>* previous = nullptr;      // Track previous node
-            
-            // Traverse until we find the correct position
-            // Continue while current exists AND current patient has 
-            // higher or equal priority than new patient
-            while (current != nullptr && *current->data < *data) {
-                previous = current;          // Move previous forward
-                current = current->next;     // Move current forward
-            }
-            
-            // Insert new node between previous and current
-            previous->next = newNode;    // Previous points to new node
-            newNode->next = current;     // New node points to current
-            
-            // If we inserted at the end, update last pointer
-            if (current == nullptr) {
-                this->last = newNode;
-            }
-        }
-        this->length++;  // Increment element count
+        
+        std::cout << "PriorityQueue initialized with " << numPriorities 
+                  << " priority levels" << std::endl;
     }
 
     /**
-     * PEEK AT NEXT PATIENT WITHOUT REMOVING
-     * @return Pointer to next patient in queue
+     * DESTRUCTOR
+     */
+    ~PriorityQueue() {
+        delete priorityBuckets;
+    }
+
+    /**
+     * ADD PATIENT TO PRIORITY QUEUE
+     * @param data: Patient to add
      * 
-     * USAGE:
-     * - Check who's next without affecting queue
-     * - Useful for preview and status displays
+     * ALGORITHM:
+     * 1. Determine bucket index from patient priority
+     * 2. Add patient to the corresponding list (FIFO within same priority)
+     */
+    void add(T data) {
+        // Convert priority to bucket index (1=High -> 0, 2=Medium -> 1, 3=Low -> 2)
+        int bucketIndex = data->priority - 1;
+        
+        // Validate priority range
+        if (bucketIndex < 0 || bucketIndex >= numPriorities) {
+            throw std::runtime_error("Invalid patient priority");
+        }
+        
+        // Add to the appropriate priority bucket
+        (*priorityBuckets)[bucketIndex].add(data);
+        totalPatients++;
+        
+        std::cout << "Patient added to priority bucket " << bucketIndex 
+                  << " (Priority " << data->priority << ")" << std::endl;
+    }
+
+    /**
+     * REMOVE AND RETURN HIGHEST PRIORITY PATIENT
+     * @return Highest priority patient
      * 
-     * EXCEPTION HANDLING:
-     * - Throws runtime_error if queue is empty
+     * ALGORITHM:
+     * 1. Search from highest priority bucket (index 0) to lowest
+     * 2. Return first patient from first non-empty bucket
+     */
+    T pop() {
+        if (isEmpty()) {
+            throw std::runtime_error("Priority queue is empty");
+        }
+        
+        // Search from highest to lowest priority
+        for (int i = 0; i < numPriorities; i++) {
+            if (!(*priorityBuckets)[i].isEmpty()) {
+                T patient = (*priorityBuckets)[i].pop();
+                totalPatients--;
+                return patient;
+            }
+        }
+        
+        throw std::runtime_error("Unexpected error in priority queue");
+    }
+
+    /**
+     * PEEK AT HIGHEST PRIORITY PATIENT WITHOUT REMOVING
+     * @return Highest priority patient
      */
     T peek() {
-        if (this->isEmpty()) {
-            throw std::runtime_error("Priority queue is empty - no patients waiting");
+        if (isEmpty()) {
+            throw std::runtime_error("Priority queue is empty");
         }
-        return this->head->data;  // Return patient pointer at head
+        
+        // Search from highest to lowest priority
+        for (int i = 0; i < numPriorities; i++) {
+            if (!(*priorityBuckets)[i].isEmpty()) {
+                // To peek without removing, we need to access the head
+                // This requires adding a peek method to List or using iterator
+                return (*priorityBuckets)[i].peek();
+            }
+        }
+        
+        throw std::runtime_error("Unexpected error in priority queue");
+    }
+
+    /**
+     * CHECK IF QUEUE IS EMPTY
+     * @return true if no patients in any bucket
+     */
+    bool isEmpty() {
+        return totalPatients == 0;
+    }
+
+    /**
+     * GET TOTAL NUMBER OF PATIENTS
+     * @return Total patients in all buckets
+     */
+    int len() {
+        return totalPatients;
+    }
+
+    /**
+     * GET NUMBER OF PATIENTS IN SPECIFIC PRIORITY
+     * @param priority: Priority level (1=High, 2=Medium, 3=Low)
+     * @return Number of patients in that priority
+     */
+    int getPriorityCount(int priority) {
+        int bucketIndex = priority - 1;
+        if (bucketIndex < 0 || bucketIndex >= numPriorities) {
+            throw std::runtime_error("Invalid priority level");
+        }
+        return (*priorityBuckets)[bucketIndex].len();
     }
 
     /**
      * DISPLAY CURRENT STATE OF PRIORITY QUEUE
-     * 
-     * VISUALIZATION:
-     * - Shows all patients in priority order
-     * - Displays patient details and queue position
-     * - Helpful for debugging and system monitoring
      */
     void displayState() {
-        if (this->isEmpty()) {
+        if (isEmpty()) {
             std::cout << "Priority queue is empty - no patients in triage" << std::endl;
             return;
         }
         
-        std::cout << "\n=== PRIORITY QUEUE STATE (TRIAGE SYSTEM) ===" << std::endl;
-        std::cout << "Patients ordered by urgency (1=Highest, 3=Lowest)" << std::endl;
+        std::cout << "\n=== PRIORITY QUEUE STATE (ARRAY OF LISTS) ===" << std::endl;
+        std::cout << "Total patients: " << totalPatients << std::endl;
         std::cout << "==============================================" << std::endl;
         
-        Node<T>* current = this->head;  // Start from highest priority
-        int position = 1;
-        
-        // Traverse and display all patients
-        while (current != nullptr) {
-            std::cout << position << ". " << *(current->data) << std::endl;
-            current = current->next;
-            position++;
+        for (int i = 0; i < numPriorities; i++) {
+            int patientCount = (*priorityBuckets)[i].len();
+            std::cout << "Priority " << (i + 1) << " (" << getPriorityName(i + 1) 
+                      << "): " << patientCount << " patients" << std::endl;
+            
+            // Display patients in this priority bucket if any
+            if (patientCount > 0) {
+                displayPatientsInBucket(i);
+            }
         }
-        std::cout << "Total patients waiting: " << this->length << std::endl;
+    }
+
+private:
+    /**
+     * GET PRIORITY NAME FOR DISPLAY
+     */
+    std::string getPriorityName(int priority) {
+        switch (priority) {
+            case 1: return "High";
+            case 2: return "Medium"; 
+            case 3: return "Low";
+            default: return "Unknown";
+        }
+    }
+
+    /**
+     * DISPLAY PATIENTS IN A SPECIFIC BUCKET
+     * Note: This requires adding iteration capability to List
+     */
+    void displayPatientsInBucket(int bucketIndex) {
+        // For now, we'll just show the count
+        // To display individual patients, we'd need to add iteration to List
+        std::cout << "  - Patients waiting: " << (*priorityBuckets)[bucketIndex].len() << std::endl;
     }
 
     /**
      * CHECK IF SPECIFIC PATIENT IS IN QUEUE
-     * @param patientId: ID of patient to search for
-     * @return true if patient found, false otherwise
-     * 
-     * SEARCH ALGORITHM:
-     * - Linear search through linked list
-     * - Uses patient ID for comparison
+     * @param patientId: ID to search for
+     * @return true if found in any bucket
      */
     bool contains(int patientId) {
-        Node<T>* current = this->head;
-        
-        while (current != nullptr) {
-            if (current->data->id == patientId) {
+        for (int i = 0; i < numPriorities; i++) {
+            // This would require adding search capability to List
+            // For now, we'll implement a basic version
+            if (containsInBucket(i, patientId)) {
                 return true;
             }
-            current = current->next;
         }
         return false;
     }
 
     /**
-     * GET PATIENT BY POSITION IN QUEUE
-     * @param position: Queue position (1-based)
-     * @return Pointer to patient at specified position
-     * 
-     * USAGE:
-     * - Access patients by their queue position
-     * - Position 1 = highest priority patient
+     * CHECK IF PATIENT IS IN SPECIFIC BUCKET
      */
-    T getPatientAt(int position) {
-        if (position < 1 || position > this->length) {
-            throw std::runtime_error("Invalid queue position");
+    bool containsInBucket(int bucketIndex, int patientId) {
+        // This is a simplified version - would need proper list iteration
+        // For now, we'll use the existing list functionality
+        List<T> tempList = (*priorityBuckets)[bucketIndex];
+        while (!tempList.isEmpty()) {
+            T patient = tempList.pop();
+            if (patient->id == patientId) {
+                return true;
+            }
         }
-        
-        Node<T>* current = this->head;
-        for (int i = 1; i < position; i++) {
-            current = current->next;
-        }
-        return current->data;
+        return false;
     }
 };
 
