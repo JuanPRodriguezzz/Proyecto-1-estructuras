@@ -224,11 +224,10 @@ void HospitalSystem::displaySystemState() {
     // Display consultation rooms state
     consultationRooms->displayState();
     
-    // Display history information 
+    // Display history information, if history is not empty returns without removal or changes
     cout << "\n=== RECENT PATIENT HISTORY (STACK) ===" << endl;
     if (history->isEmpty()) {
         cout << "No patients in history - no consultations completed yet" << endl;
-        // If is not empty call peek()
     } else {
         cout << "Most recent patient: " << *(history->peek()) << endl;
         cout << "Total patients in history: " << history->len() << endl;
