@@ -3,10 +3,10 @@
 Un sistema integral de gestión hospitalaria creado en C++ que demuestra la aplicación práctica de estructuras de datos en un escenario del mundo real.
 
 ## 🏗 Data Structures Used
-   - Array: Patient database storage
-   - Priority Queue: Triage system (array of lists implementation)
-   - Circular Queue: Consultation room management
-   - Stack: Patient history tracking
+   - **Arreglo dinamico:** Base de datos de pacientes
+   - **Cola por Prioridad:** Triage de pacientes
+   - **Cola Circular:** Gestión de la atención en los consultorios
+   - **Pila:** Historial y seguimiento de diagnosticos
 ## 🚀 Installation (Windows)
 
 ### Paso 1: Instalar compilador de C++
@@ -15,9 +15,9 @@ Un sistema integral de gestión hospitalaria creado en C++ que demuestra la apli
    - Architecture: `x86_64`
    - Threads: `posix`
    - Exception: `seh`
-3. Install to: `C:\MinGW`
+3. Instalar en: `C:\MinGW`
 
-### Paso 2: Establecer las variables de entorno
+### Paso 2: Establecer las variables de entorno del sístema
 1. Presione `Windows + R`, ingrese `sysdm.cpl`, presione Enter
 2. Clickee "Environment Variables"
 3. Bajo "System Variables", encuentre `Path`, clickee "Edit"
@@ -60,6 +60,7 @@ hospital_system.exe
   - Priority 1 (High): Emergency cases - treated first
   - Priority 2 (Medium): Urgent cases - treated after emergencies
   - Priority 3 (Low): Routine cases - treated last
+## Ejemplo de uso
 ```text
 === HOSPITAL MANAGEMENT SYSTEM ===
 1. Register New Patient
