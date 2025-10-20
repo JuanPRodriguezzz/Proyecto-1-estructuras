@@ -7,6 +7,27 @@ Un sistema integral de gestión hospitalaria creado en C++ que demuestra la apli
    - **Cola por Prioridad:** Triage de pacientes
    - **Cola Circular:** Gestión de la atención en los consultorios
    - **Pila:** Historial y seguimiento de diagnosticos
+     
+## Estructura repositorio
+```text
+HospitalManagementSystem/
+├── src/
+│   ├── main.cpp
+│   ├── hospitalsystem.h
+│   ├── hospitalsystem.cpp
+│   ├── patient.h
+│   ├── priorityqueue.h
+│   ├── circularqueue.h
+│   ├── array.h
+│   ├── list.h
+│   └── stack.h
+├── docs/
+│   └── EXPLICACION_ESTRUCTURAS.md
+├── compile.bat
+├── Makefile
+└── README.md
+```
+
 ## 🚀 Installation (Windows)
 
 ### Paso 1: Instalar compilador de C++
@@ -81,22 +102,4 @@ Enter symptoms: Chest pain
 ✅ PATIENT REGISTERED SUCCESSFULLY
 Patient ID: 1 | John Smith | Age: 45 | Priority: 1 | Symptom: Chest pain
 ```
-## Estructura repositorio
-```text
-HospitalManagementSystem/
-├── src/
-│   ├── main.cpp
-│   ├── hospitalsystem.h
-│   ├── hospitalsystem.cpp
-│   ├── patient.h
-│   ├── priorityqueue.h
-│   ├── circularqueue.h
-│   ├── array.h
-│   ├── list.h
-│   └── stack.h
-├── docs/
-│   └── EXPLICACION_ESTRUCTURAS.md
-├── compile.bat
-├── Makefile
-└── README.md
-```
+
