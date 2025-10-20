@@ -119,7 +119,19 @@ public:
     int len() {
         return totalPatients;
     }
-
+    /**
+     * CONTAINS - Searchs if an especific ID is in any of the priority lists, tracks the current status of each patient
+     */
+    bool contains(int patientId) {
+        for (int i = 0; i < numPriorities; i++) {
+            if ((*priorityBuckets)[i].contains([patientId](T patient) {
+                return patient->id == patientId;
+            })) {
+                return true;
+            }
+        }
+        return false;
+    }
     /**
      * DISPLAY STATE - Shows current status of all priority buckets
      */
