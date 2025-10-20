@@ -124,6 +124,19 @@ public:
         return head->data;
     }
     throw std::runtime_error("List is empty - cannot peek");
+        }
+    /**
+     * CONTAINS - CHECKS IF ANY NODE FULLFILLS THE CONDITION ESPECIFIED IN @param
+     */
+    bool contains(std::function<bool(T)> condition) {
+        Node<T>* current = head;
+        while (current != nullptr) {
+            if (condition(current->data)) {
+                return true;
+            }
+            current = current->next;
+        }
+        return false;
     }
 
     /**
