@@ -55,3 +55,23 @@ hospital_system.exe
   - Priority 1 (High): Emergency cases - treated first
   - Priority 2 (Medium): Urgent cases - treated after emergencies
   - Priority 3 (Low): Routine cases - treated last
+```text
+=== HOSPITAL MANAGEMENT SYSTEM ===
+1. Register New Patient
+2. Attend Next Patient
+3. Free Consultation Room
+4. Display System State
+5. View Patient Database
+6. Search Patient by ID
+7. Exit System
+
+Select an option: 1
+
+Enter patient name: John Smith
+Enter patient age: 45
+Enter priority (1=High, 2=Medium, 3=Low): 1
+Enter symptoms: Chest pain
+
+✅ PATIENT REGISTERED SUCCESSFULLY
+Patient ID: 1 | John Smith | Age: 45 | Priority: 1 | Symptom: Chest pain
+```
