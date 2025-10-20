@@ -2,7 +2,7 @@
 
 Un sistema integral de gestión hospitalaria creado en C++ que demuestra la aplicación práctica de estructuras de datos en un escenario del mundo real.
 
-## 🏗 Data Structures Used
+## 🏗 Estructuras de datos usadas
    - **Arreglo dinamico:** Base de datos de pacientes
    - **Cola por Prioridad:** Triage de pacientes
    - **Cola Circular:** Gestión de la atención en los consultorios
