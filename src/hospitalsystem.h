@@ -1,51 +1,83 @@
-#ifndef SISTEMAHOSPITAL_H
-#define SISTEMAHOSPITAL_H
+#ifndef HOSPITALSYSTEM_H
+#define HOSPITALSYSTEM_H
 
 #include "priorityqueue.h"
-#include "circularqueue.h" 
+#include "circularqueue.h"
 #include "stack.h"
 #include "array.h"
-#include "paciente.h"
+#include "patient.h"
 #include <iostream>
 #include <string>
 
-/*
- * SISTEMA HOSPITALARIO PRINCIPAL
+/**
+ * HOSPITAL SYSTEM MAIN CLASS
  * 
- * AHORA CON MÉTODO ESTÁTICO PARA INICIAR LA APLICACIÓN
- * Todo queda encapsulado dentro de la clase
+ * INTEGRATES ALL DATA STRUCTURES:
+ * - Array: Patient database
+ * - PriorityQueue: Triage system  
+ * - CircularQueue: Consultation rooms
+ * - Stack: Patient history
+ * 
+ * DESIGN PATTERN:
+ * - Facade pattern: provides simple interface to complex subsystem
+ * - RAII: manages memory automatically through constructors/destructors
+ * - Singleton-like: static method for application entry point
  */
 
-class SistemaHospital {
+class HospitalSystem {
 private:
-    // ESTRUCTURAS DE DATOS - APUNTADORES A PACIENTES
-    Array<Paciente*>* pacientesRegistrados;
-    PriorityQueue<Paciente*>* triage;  
-    CircularQueue<Paciente*>* consultorios;
-    Stack<Paciente*>* historial;
+    // DATA STRUCTURES USING PATIENT POINTERS
+    Array<Patient*>* registeredPatients;  // Dynamic array - all patients database
+    PriorityQueue<Patient*>* triage;      // Priority queue - waiting patients by urgency
+    CircularQueue<Patient*>* consultationRooms; // Circular queue - active consultations
+    Stack<Patient*>* history;             // Stack - recently completed patients
 
-    int siguienteID;
-    int numConsultorios;
+    int nextPatientID;           // Auto-incrementing patient ID generator
+    int numberOfConsultationRooms; // Fixed number of consultation rooms
 
-    // MÉTODOS PRIVADOS - Implementación interna
-    void registrarPaciente(std::string nombre, int edad, int prioridad, std::string sintoma);
-    void atenderSiguientePaciente();
-    void liberarConsultorio();
-    void mostrarEstadoSistema();
-    void menuPrincipal();
+    // PRIVATE METHODS - Implementation details
+    void registerPatient(std::string name, int age, int priority, std::string symptom);
+    void attendNextPatient();
+    void freeConsultationRoom();
+    void displaySystemState();
+    void displayPatientDatabase();
+    void searchPatient(int patientId);
+    void mainMenu();
 
 public:
-    // Constructor
-    SistemaHospital(int numConsultorios = 3);
-    
-    // Destructor
-    ~SistemaHospital();
-    
-    /*
-     * MÉTODO ESTÁTICO PARA INICIAR LA APLICACIÓN
-     * No necesita instanciar la clase para comenzar
+    /**
+     * HOSPITAL SYSTEM CONSTRUCTOR
+     * @param numRooms: Number of consultation rooms (default: 3)
+     * 
+     * MEMORY ALLOCATION:
+     * - Dynamically allocates all data structures
+     * - Initializes patient ID counter
      */
-    static void ejecutarAplicacion();
+    HospitalSystem(int numRooms = 3);
+    
+    /**
+     * HOSPITAL SYSTEM DESTRUCTOR
+     * 
+     * MEMORY CLEANUP:
+     * - Deletes all patient objects to prevent memory leaks
+     * - Deletes all data structure objects
+     * - Called automatically when object goes out of scope
+     */
+    ~HospitalSystem();
+    
+    /**
+     * STATIC APPLICATION ENTRY POINT
+     * 
+     * DESIGN:
+     * - Static method doesn't require object instance
+     * - Creates HospitalSystem instance and runs main menu
+     * - Handles exceptions at application level
+     */
+    static void runApplication();
+
+    // Delete copy constructor and assignment operator to prevent copying
+    HospitalSystem(const HospitalSystem&) = delete;
+    HospitalSystem& operator=(const HospitalSystem&) = delete;
 };
 
 #endif
