@@ -2,6 +2,11 @@
 
 Un sistema integral de gestión hospitalaria creado en C++ que demuestra la aplicación práctica de estructuras de datos en un escenario del mundo real.
 
+## 🏗 Data Structures Used
+   - Array: Patient database storage
+   - Priority Queue: Triage system (array of lists implementation)
+   - Circular Queue: Consultation room management
+   - Stack: Patient history tracking
 ## 🚀 Installation (Windows)
 
 ### Paso 1: Instalar compilador de C++
