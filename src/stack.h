@@ -12,6 +12,7 @@
  * BEHAVIOR:
  * - Elements added to top (push)
  * - Elements removed from top (pop)
+ * - Can peek at top element without removing
  */
 template <typename T>
 class Stack : public List<T> {
@@ -42,6 +43,40 @@ public:
             this->head = temp;        // New node becomes head
         }
         this->length++;  // Increment length
+    }
+
+    /**
+     * PEEK AT TOP ELEMENT WITHOUT REMOVING
+     * @return Element at top of stack
+     * 
+     * USAGE:
+     * - Check top element without modifying stack
+     * - Useful for viewing most recent element
+     * 
+     * EXCEPTION HANDLING:
+     * - Throws runtime_error if stack is empty
+     */
+    T peek() {
+        if (this->isEmpty()) {
+            throw std::runtime_error("Stack is empty - cannot peek");
+        }
+        return this->head->data;  // Return data from top node
+    }
+
+    /**
+     * CHECK IF STACK CONTAINS SPECIFIC ELEMENT
+     * @param data: Element to search for
+     * @return true if element found, false otherwise
+     */
+    bool contains(T data) {
+        Node<T>* current = this->head;
+        while (current != nullptr) {
+            if (current->data == data) {
+                return true;
+            }
+            current = current->next;
+        }
+        return false;
     }
 };
 
