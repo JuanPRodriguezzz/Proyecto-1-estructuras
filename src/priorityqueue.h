@@ -96,7 +96,7 @@ public:
     }
 
     /**
-     * PEEK - Returns highest priority patient without removal
+     * PEEK - Returns highest priority patient without removal or changes
      */
     T peek() {
         if (isEmpty()) {
@@ -120,7 +120,19 @@ public:
         return totalPatients;
     }
     /**
-     * CONTAINS - Searchs if an especific ID is in any of the priority lists, tracks the current status of each patient
+     * CONTAINS - CHECKS IF A PATIENT WITH SPECIFIED ID EXISTS IN ANY PRIORITY BUCKET
+     * @param patientId: The unique identifier of the patient to search for
+     * @return true if patient found in any priority level, false otherwise
+     * 
+     * SEARCH ALGORITHM:
+     * - Iterates through all priority buckets (high, medium, low)
+     * - For each bucket, performs linear search through the patient list
+     * - Returns immediately when patient is found to optimize performance
+     * 
+     * USE CASE:
+     * - Patient status tracking in display functions
+     * - Preventing duplicate patient registrations
+     * - Patient lookup and system monitoring
      */
     bool contains(int patientId) {
         for (int i = 0; i < numPriorities; i++) {
