@@ -116,6 +116,12 @@ public:
     int len() {
         return length;
     }
+    T peek() {
+    if (!isEmpty()) {
+        return head->data;
+    }
+    throw std::runtime_error("List is empty - cannot peek");
+    }
 
     /**
      * REMOVE AND RETURN FIRST ELEMENT
