@@ -1,14 +1,19 @@
-# Hospital System Makefile
+# Hospital Management System Makefile
 CXX = g++
 CXXFLAGS = -std=c++11 -Wall -g -O2
-TARGET = hospital_system
-SOURCES = main.cpp hospitalsystem.cpp
-HEADERS = hospitalsystem.h patient.h priorityqueue.h circularqueue.h \
-          array.h list.h stack.h queue.h
+TARGET = build/hospital_system
+SRCDIR = src
+SOURCES = $(SRCDIR)/main.cpp $(SRCDIR)/hospitalsystem.cpp
+HEADERS = $(SRCDIR)/hospitalsystem.h $(SRCDIR)/patient.h \
+          $(SRCDIR)/priorityqueue.h $(SRCDIR)/circularqueue.h \
+          $(SRCDIR)/array.h $(SRCDIR)/list.h $(SRCDIR)/stack.h
+
+# Create build directory if it doesn't exist
+$(shell mkdir -p build)
 
 $(TARGET): $(SOURCES) $(HEADERS)
 	@echo "🏥 Compiling Hospital Management System..."
-	$(CXX) $(CXXFLAGS) -o $(TARGET) $(SOURCES)
+	$(CXX) $(CXXFLAGS) -I$(SRCDIR) -o $(TARGET) $(SOURCES)
 	@echo "✅ Compilation successful! Run with: ./$(TARGET)"
 
 run: $(TARGET)
@@ -16,10 +21,10 @@ run: $(TARGET)
 	./$(TARGET)
 
 clean:
-	rm -f $(TARGET) *.o
-	@echo "🧹 Cleanup completed"
+	rm -rf build
+	@echo "🧹 Build directory cleaned"
 
 debug: $(TARGET)
-	gdb ./$(TARGET)
+	@gdb ./$(TARGET)
 
 .PHONY: run clean debug
