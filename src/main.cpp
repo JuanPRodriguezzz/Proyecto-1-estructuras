@@ -1,11 +1,21 @@
-#include "sistemahospital.h"
+#include "hospitalsystem.h"
 
-/*
- * MAIN MUY SIMPLE - Solo llama al método estático
- * Todo el código está encapsulado en la clase SistemaHospital
+/**
+ * MAIN FUNCTION - APPLICATION ENTRY POINT
+ * 
+ * SIMPLICITY PRINCIPLE:
+ * - Only calls static method to run application
+ * - All complexity hidden in HospitalSystem class
+ * - Easy to understand and maintain
+ * 
+ * RETURN CODES:
+ * - 0: Normal successful execution
+ * - 1: Unexpected error occurred
  */
 int main() {
-    // Punto de entrada - todo encapsulado en la clase
-    SistemaHospital::ejecutarAplicacion();
+    // Delegate all functionality to HospitalSystem class
+    HospitalSystem::runApplication();
+    
+    // Return success code
     return 0;
 }
