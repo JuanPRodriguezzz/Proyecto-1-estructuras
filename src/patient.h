@@ -7,34 +7,38 @@
 /**
  * PATIENT CLASS
  * 
- * REPRESENTS A HOSPITAL PATIENT WITH:
- * - Unique identifier
- * - Personal information
- * - Medical priority level
- * - Medical symptoms
+ * Represents a hospital patient with Colombian triage system (5 levels)
  * 
- * OPERATOR OVERLOADING:
- * - Comparison operators for priority-based sorting
- * - Output stream operator for easy printing
+ * COLOMBIAN TRIAGE SYSTEM:
+ * - TRIAGE I (1): Emergency - Immediate attention required
+ * - TRIAGE II (2): Urgent - High priority conditions  
+ * - TRIAGE III (3): Priority - Requires prompt attention
+ * - TRIAGE IV (4): Routine - Standard priority conditions
+ * - TRIAGE V (5): Non-urgent - Lowest priority conditions
+ * 
+ * DESIGN:
+ * - Uses operator overloading for comparison and sorting
+ * - Provides descriptive priority level information
+ * - Follows RAII principles for memory safety
  */
 class Patient {
 public:
-    int id;              // Unique patient identifier
-    std::string name;    // Patient's full name
-    int age;             // Patient's age
-    int priority;        // Triage priority (1=High, 2=Medium, 3=Low)
-    std::string symptom; // Medical symptom description
+    int id;              ///< Unique patient identifier
+    std::string name;    ///< Patient's full name
+    int age;             ///< Patient's age in years
+    int priority;        ///< Triage priority level (1-5 according to Colombian system)
+    std::string symptom; ///< Medical symptom description
 
     /**
      * PATIENT CONSTRUCTOR
-     * @param _id: Unique patient ID
-     * @param _name: Patient's name
-     * @param _age: Patient's age
-     * @param _priority: Triage priority level
-     * @param _symptom: Medical symptom
+     * @param _id: Unique patient identifier
+     * @param _name: Patient's full name
+     * @param _age: Patient's age in years
+     * @param _priority: Triage priority level (1-5)
+     * @param _symptom: Medical symptom description
      * 
-     * INITIALIZATION:
-     * - Uses member initialization list for efficiency
+     * MEMBER INITIALIZATION:
+     * - Uses member initialization list for efficient construction
      * - Directly initializes all member variables
      */
     Patient(int _id, std::string _name, int _age, int _priority, std::string _symptom)
@@ -43,11 +47,11 @@ public:
     /**
      * LESS-THAN OPERATOR OVERLOADING
      * @param other: Patient to compare against
-     * @return true if this patient has higher priority
+     * @return true if this patient has higher priority (lower number)
      * 
-     * PRIORITY SYSTEM:
-     * - Lower priority number = higher urgency
-     * - Used for sorting in priority queue
+     * USAGE:
+     * - Enables sorting by priority level
+     * - Used by merge sort algorithms in Array and List classes
      */
     bool operator<(const Patient& other) const {
         return this->priority < other.priority;
@@ -56,7 +60,7 @@ public:
     /**
      * GREATER-THAN OPERATOR OVERLOADING
      * @param other: Patient to compare against
-     * @return true if this patient has lower priority
+     * @return true if this patient has lower priority (higher number)
      */
     bool operator>(const Patient& other) const {
         return this->priority > other.priority;
@@ -65,28 +69,54 @@ public:
     /**
      * EQUALITY OPERATOR OVERLOADING
      * @param other: Patient to compare against
-     * @return true if patients have same ID
+     * @return true if patients have identical IDs
      * 
-     * USAGE:
-     * - Patient identification and searching
+     * PURPOSE:
+     * - Patient identification and duplicate checking
+     * - Used in search and contains operations
      */
     bool operator==(const Patient& other) const {
         return this->id == other.id;
     }
 
     /**
-     * OUTPUT STREAM OPERATOR OVERLOADING (FRIEND FUNCTION)
-     * @param os: Output stream
-     * @param p: Patient to output
-     * @return Output stream reference
+     * GET PRIORITY DESCRIPTION
+     * @return String description of the priority level
+     * 
+     * COLOMBIAN TRIAGE LEVELS:
+     * - Level 1: Emergency (life-threatening conditions)
+     * - Level 2: Urgent (risk of rapid deterioration)
+     * - Level 3: Priority (requires prompt attention)
+     * - Level 4: Routine (standard medical conditions)
+     * - Level 5: Non-urgent (chronic/minor conditions)
+     */
+    std::string getPriorityDescription() const {
+        switch(priority) {
+            case 1: return "TRIAGE I - Emergency";
+            case 2: return "TRIAGE II - Urgent";
+            case 3: return "TRIAGE III - Priority";
+            case 4: return "TRIAGE IV - Routine";
+            case 5: return "TRIAGE V - Non-urgent";
+            default: return "Unknown Priority";
+        }
+    }
+
+    /**
+     * OUTPUT STREAM OPERATOR OVERLOADING
+     * @param os: Output stream reference
+     * @param p: Patient object to output
+     * @return Output stream reference for chaining
+     * 
+     * FORMAT:
+     * "ID: [id] | [name] | Age: [age] | [priority description] | Symptom: [symptom]"
      * 
      * FRIEND FUNCTION:
      * - Can access private members of Patient class
-     * - Allows natural syntax: cout << patient
+     * - Enables natural syntax: std::cout << patient
      */
     friend std::ostream& operator<<(std::ostream& os, const Patient& p) {
         os << "ID: " << p.id << " | " << p.name << " | Age: " << p.age 
-           << " | Priority: " << p.priority << " | Symptom: " << p.symptom;
+           << " | " << p.getPriorityDescription() << " | Symptom: " << p.symptom;
         return os;
     }
 };
