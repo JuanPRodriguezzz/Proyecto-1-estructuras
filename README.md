@@ -68,10 +68,10 @@ g++ --version
 ```
 
 ### Paso 5: Compilación y ejecución
-# Metodo 1: Use el script batch
+**Metodo 1: Use el script batch**
 compile.bat
 
-# Metodo 2: Compilación manual
+**Metodo 2: Compilación manual**
 Ingrese:
 ```cmd
 g++ -std=c++11 -Wall -g src/main.cpp src/hospitalsystem.cpp -o hospital_system.exe
