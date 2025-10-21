@@ -29,29 +29,49 @@ HospitalManagementSystem/
 ```
 
 ## 🚀 Installation (Windows)
+### Paso 1: Descargar el codigo
+**Opcion A: Clonar repositorio (Recomendado)**
 
-### Paso 1: Instalar compilador de C++
-1. Descargar **MinGW-w64** from (https://www.mingw-w64.org/downloads/)
+```bash
+# Clone using Git
+git clone https://github.com/your-username/HospitalManagementSystem.git
+
+# Navigate to project directory
+cd HospitalManagementSystem
+```
+**Opcion B: Descargar el archivo ZIP**
+
+Go to the GitHub repository page
+Click the green "Code" button
+Select "Download ZIP"
+
+Extract the ZIP file to your desired location
+### Paso 2: Instalar compilador de C++
+1. Descargar **MinGW-w64** from (https://www.mingw-w64.org/)
 2. Ejecute el instalador y seleccione:
    - Architecture: `x86_64`
    - Threads: `posix`
    - Exception: `seh`
 3. Instalar en: `C:\MinGW`
 
-### Paso 2: Establecer las variables de entorno del sístema
+### Paso 3: Establecer las variables de entorno del sístema
 1. Presione `Windows + R`, ingrese `sysdm.cpl`, presione Enter
 2. Clickee "Environment Variables"
 3. Bajo "System Variables", encuentre `Path`, clickee "Edit"
 4. Clickee "New" y agregue: `C:\MinGW\bin`
 5. Clickee "OK" para finalizar
 
-### Paso 3: Verificar Instalación
+### Paso 4: Verificar Instalación
 Abra la consola de comandos e ingrese:
 ```cmd
 g++ --version
 ```
 
-### Paso 4: Compilación y ejecución
+### Paso 5: Compilación y ejecución
+# Metodo 1: Use el script batch
+compile.bat
+
+# Metodo 2: Compilación manual
 Ingrese:
 ```cmd
 g++ -std=c++11 -Wall -g src/main.cpp src/hospitalsystem.cpp -o hospital_system.exe
@@ -83,14 +103,17 @@ hospital_system.exe
   - Priority 3 (Low): Routine cases - treated last
 ## Ejemplo de uso
 ```text
-=== HOSPITAL MANAGEMENT SYSTEM ===
+==================================================
+          HOSPITAL MANAGEMENT SYSTEM
+==================================================
 1. Register New Patient
-2. Attend Next Patient
-3. Free Consultation Room
-4. Display System State
+2. Attend Next Patient (Triage → Consultation)
+3. Free Consultation Room (Consultation → History)
+4. Display Complete System State
 5. View Patient Database
 6. Search Patient by ID
 7. Exit System
+==================================================
 
 Select an option: 1
 
