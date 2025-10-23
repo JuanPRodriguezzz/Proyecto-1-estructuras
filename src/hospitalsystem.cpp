@@ -9,7 +9,7 @@ using namespace std;
  * @param numRooms: Number of consultation rooms to create
  * 
  * MEMORY ALLOCATION BREAKDOWN:
- * - registeredPatients: Array of Patient pointers (capacity 100)
+ * - registeredPatients: Array of Patient pointers (capacity 200)
  * - triage: PriorityQueue with 5 levels for Colombian triage
  * - consultationRooms: CircularQueue for room management  
  * - history: Stack for patient history (LIFO order)
@@ -23,7 +23,7 @@ HospitalSystem::HospitalSystem(int numRooms)
     : nextPatientID(1), numberOfConsultationRooms(numRooms) {
     
     // Initialize all data structures with dynamic allocation
-    registeredPatients = new Array<Patient*>(100);  // Capacity for 100 patients
+    registeredPatients = new Array<Patient*>(200);  // Capacity for 200 patients
     triage = new PriorityQueue<Patient*>();         // Default 5 priority levels
     consultationRooms = new CircularQueue<Patient*>(numberOfConsultationRooms);
     history = new Stack<Patient*>();
@@ -31,7 +31,7 @@ HospitalSystem::HospitalSystem(int numRooms)
     cout << "=== HOSPITAL MANAGEMENT SYSTEM INITIALIZED ===" << endl;
     cout << "Consultation rooms: " << numberOfConsultationRooms << endl;
     cout << "Triage system: Colombian 5-level priority" << endl;
-    cout << "Patient database capacity: 100" << endl;
+    cout << "Patient database capacity: 200" << endl;
     cout << "=============================================" << endl;
 }
 
@@ -383,9 +383,9 @@ void HospitalSystem::mainMenu() {
     int choice;
     
     do {
-        cout << "\n==================================================" << endl;
-        cout << "     HOSPITAL MANAGEMENT SYSTEM - COLOMBIAN TRIAGE" << endl;
-        cout << "==================================================" << endl;
+        cout << "\n=======================================" << endl;
+        cout << "     HOSPITAL MANAGEMENT SYSTEM     " << endl;
+        cout << "=========================================" << endl;
         cout << "1. Register New Patient" << endl;
         cout << "2. Attend Next Patient (Triage → Consultation)" << endl;
         cout << "3. Free Consultation Room (Consultation → History)" << endl;
@@ -393,7 +393,7 @@ void HospitalSystem::mainMenu() {
         cout << "5. View Patient Database" << endl;
         cout << "6. Search Patient by ID" << endl;
         cout << "7. Exit System" << endl;
-        cout << "==================================================" << endl;
+        cout << "==========================================" << endl;
         cout << "Select an option (1-7): ";
         
         cin >> choice;
@@ -487,7 +487,7 @@ void HospitalSystem::runApplication() {
     
     try {
         // Create hospital system instance with default consultation rooms
-        HospitalSystem hospital(3);
+        HospitalSystem hospital(10);
         
         // Run the main menu - blocking call until user exits
         hospital.mainMenu();
