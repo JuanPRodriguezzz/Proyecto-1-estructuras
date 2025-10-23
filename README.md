@@ -80,7 +80,7 @@ hospital_system.exe
 ## 🎮 User Manual
 ## Opciones del menú principal
 ### 1. Register New Patient
-  - Enter patient details: name, age, priority (1-3), symptoms
+  - Enter patient details: name, age, priority (I-V), symptoms
   - Patient is automatically added to triage system
 ### 2. Attend Next Patient
   - Moves highest priority patient from triage to available consultation room
