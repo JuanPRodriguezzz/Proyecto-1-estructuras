@@ -2,7 +2,7 @@
 #define PRIORITYQUEUE_H
 
 #include "array.h"
-#include "list.h"       // Using concrete List class instead of abstract
+#include "list.h"    
 #include "patient.h"
 #include <iostream>
 #include <stdexcept>
