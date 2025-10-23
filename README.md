@@ -7,6 +7,9 @@ Un sistema integral de gestión hospitalaria creado en C++ que demuestra la apli
    - **Cola por Prioridad:** Triage de pacientes
    - **Cola Circular:** Gestión de la atención en los consultorios
    - **Pila:** Historial y seguimiento de diagnosticos
+
+### 🤖 Uso de IA
+Se usó la IA deepseek aproximadamente en un 65% del desarrollo del proyecto
      
 ## Estructura repositorio
 ```text
