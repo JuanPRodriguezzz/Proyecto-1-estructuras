@@ -54,7 +54,7 @@ public:
      * - Initializes patient ID counter starting from 1
      * - Sets up Colombian triage system with 5 priority levels
      */
-    HospitalSystem(int numRooms = 3);
+    HospitalSystem(int numRooms = 10);
     
     /**
      * HOSPITAL SYSTEM DESTRUCTOR
