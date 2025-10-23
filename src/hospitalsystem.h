@@ -47,7 +47,7 @@ private:
 public:
     /**
      * HOSPITAL SYSTEM CONSTRUCTOR
-     * @param numRooms: Number of consultation rooms (default: 3)
+     * @param numRooms: Number of consultation rooms (default: 8)
      * 
      * MEMORY ALLOCATION:
      * - Dynamically allocates all data structures
