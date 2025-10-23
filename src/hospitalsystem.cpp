@@ -113,7 +113,7 @@ void HospitalSystem::registerPatient(string name, int age, int priority, string 
         triage->add(newPatient);
         
         // Success notification with detailed information
-        cout << "\n✅ PATIENT REGISTERED SUCCESSFULLY" << endl;
+        cout << "\n[DONE] PATIENT REGISTERED SUCCESSFULLY" << endl;
         cout << "Patient ID: " << newPatient->id << endl;
         cout << "Name: " << newPatient->name << endl;
         cout << "Age: " << newPatient->age << endl;
@@ -150,13 +150,13 @@ void HospitalSystem::registerPatient(string name, int age, int priority, string 
 void HospitalSystem::attendNextPatient() {
     // Check if there are patients waiting in triage
     if (triage->isEmpty()) {
-        cout << "\n❌ No patients waiting in triage" << endl;
+        cout << "\n[ERROR!] No patients waiting in triage" << endl;
         return;
     }
 
     // Check if consultation rooms are available
     if (consultationRooms->isFull()) {
-        cout << "\n❌ All consultation rooms are occupied" << endl;
+        cout << "\n[ERROR!] All consultation rooms are occupied" << endl;
         cout << "Please free a room before attending next patient" << endl;
         return;
     }
@@ -169,14 +169,14 @@ void HospitalSystem::attendNextPatient() {
         consultationRooms->enqueue(nextPatient);
         
         // Success notification with system status update
-        cout << "\n✅ PATIENT ASSIGNED TO CONSULTATION ROOM" << endl;
+        cout << "\n[DONE] PATIENT ASSIGNED TO CONSULTATION ROOM" << endl;
         cout << "Patient: " << *nextPatient << endl;
         cout << "Consultation rooms occupied: " << consultationRooms->size() 
              << "/" << consultationRooms->getCapacity() << endl;
         cout << "Patients remaining in triage: " << triage->len() << endl;
     }
     catch (const exception& e) {
-        cout << "\n❌ Error attending patient: " << e.what() << endl;
+        cout << "\n!! Error attending patient: " << e.what() << endl;
     }
 }
 
@@ -197,7 +197,7 @@ void HospitalSystem::attendNextPatient() {
 void HospitalSystem::freeConsultationRoom() {
     // Check if there are occupied consultation rooms
     if (consultationRooms->isEmpty()) {
-        cout << "\n❌ No consultation rooms are currently occupied" << endl;
+        cout << "\n[ERROR!] No consultation rooms are currently occupied" << endl;
         return;
     }
 
@@ -209,14 +209,14 @@ void HospitalSystem::freeConsultationRoom() {
         history->add(completedPatient);
         
         // Success notification with system status
-        cout << "\n✅ CONSULTATION ROOM FREED" << endl;
+        cout << "\n[DONE] CONSULTATION ROOM FREED" << endl;
         cout << "Patient consultation completed: " << *completedPatient << endl;
         cout << "Patient added to history stack" << endl;
         cout << "Available rooms: " << consultationRooms->getCapacity() - consultationRooms->size() 
              << "/" << consultationRooms->getCapacity() << endl;
     }
     catch (const exception& e) {
-        cout << "\n❌ Error freeing consultation room: " << e.what() << endl;
+        cout << "\n!! Error freeing consultation room: " << e.what() << endl;
     }
 }
 
@@ -337,18 +337,18 @@ void HospitalSystem::searchPatient(int patientId) {
         Patient* patient = (*registeredPatients)[i];
         if (patient->id == patientId) {
             found = true;
-            cout << "✅ PATIENT FOUND IN DATABASE" << endl;
+            cout << "! PATIENT FOUND IN DATABASE" << endl;
             cout << "Details: " << *patient << endl;
             
             // Determine and display current patient status
             if (triage->contains(patientId)) {
-                cout << "📍 CURRENT STATUS: Waiting in triage queue" << endl;
+                cout << "[WAITING] CURRENT STATUS: Waiting in triage queue" << endl;
                 cout << "   Priority: " << patient->getPriorityDescription() << endl;
             } else if (consultationRooms->isPatientInConsultation(patientId)) {
                 int room = consultationRooms->findPatientRoom(patientId);
-                cout << "📍 CURRENT STATUS: In consultation room " << room << endl;
+                cout << "[ACTIVE] CURRENT STATUS: In consultation room " << room << endl;
             } else {
-                cout << "📍 CURRENT STATUS: Consultation completed" << endl;
+                cout << "[DONE] CURRENT STATUS: Consultation completed" << endl;
                 cout << "   Patient is in system history" << endl;
             }
             break;
@@ -356,7 +356,7 @@ void HospitalSystem::searchPatient(int patientId) {
     }
     
     if (!found) {
-        cout << "❌ Patient ID " << patientId << " not found in system" << endl;
+        cout << "[ERROR!] Patient ID " << patientId << " not found in system" << endl;
         cout << "Please verify the patient ID and try again" << endl;
     }
 }
@@ -387,8 +387,8 @@ void HospitalSystem::mainMenu() {
         cout << "     HOSPITAL MANAGEMENT SYSTEM     " << endl;
         cout << "=========================================" << endl;
         cout << "1. Register New Patient" << endl;
-        cout << "2. Attend Next Patient (Triage → Consultation)" << endl;
-        cout << "3. Free Consultation Room (Consultation → History)" << endl;
+        cout << "2. Attend Next Patient (Triage -> Consultation)" << endl;
+        cout << "3. Free Consultation Room (Consultation -> History)" << endl;
         cout << "4. Display Complete System State" << endl;
         cout << "5. View Patient Database" << endl;
         cout << "6. Search Patient by ID" << endl;
@@ -455,11 +455,11 @@ void HospitalSystem::mainMenu() {
                     break;
                     
                 default:
-                    cout << "\n❌ Invalid option. Please select a number between 1 and 7." << endl;
+                    cout << "\n!! Invalid option. Please select a number between 1 and 7." << endl;
             }
         }
         catch (const exception& e) {
-            cout << "\n❌ Error: " << e.what() << endl;
+            cout << "\n[ERROR!]: " << e.what() << endl;
             cout << "Please try again with valid input." << endl;
         }
         
@@ -481,7 +481,7 @@ void HospitalSystem::mainMenu() {
  * - Ensures proper system shutdown on critical errors
  */
 void HospitalSystem::runApplication() {
-    cout << "🚀 INITIALIZING HOSPITAL MANAGEMENT SYSTEM" << endl;
+    cout << "[STARTING] INITIALIZING HOSPITAL MANAGEMENT SYSTEM" << endl;
     cout << "Version: 2.0 | Colombian Triage System (5 levels)" << endl;
     cout << "Data Structures: Array, PriorityQueue, CircularQueue, Stack" << endl;
     
@@ -494,7 +494,7 @@ void HospitalSystem::runApplication() {
     }
     catch (const exception& e) {
         // Handle any critical system initialization errors
-        cout << "\n💥 CRITICAL SYSTEM ERROR: " << e.what() << endl;
+        cout << "\n!! CRITICAL SYSTEM ERROR: " << e.what() << endl;
         cout << "The system must shut down due to an unrecoverable error." << endl;
         cout << "Please contact system administrator." << endl;
     }
