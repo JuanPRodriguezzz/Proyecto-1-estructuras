@@ -119,7 +119,7 @@ Select an option: 1
 
 Enter patient name: John Smith
 Enter patient age: 45
-Enter priority (1=High, 2=Medium, 3=Low): 1
+Enter priority (1=TRIAGE I, 2=TRIAGE II, 3=TRIAGE III, 4=TRIAGE IV, 5=TRIAGE V): 1
 Enter symptoms: Chest pain
 
 ✅ PATIENT REGISTERED SUCCESSFULLY
