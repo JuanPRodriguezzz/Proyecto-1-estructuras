@@ -100,10 +100,6 @@ hospital_system.exe
   - Find specific patient using their unique ID
 ### 7. Exit System
   - Safely shuts down and cleans up memory
-## Priority System
-  - Priority 1 (High): Emergency cases - treated first
-  - Priority 2 (Medium): Urgent cases - treated after emergencies
-  - Priority 3 (Low): Routine cases - treated last
 ## Ejemplo de uso
 ```text
 ==================================================
